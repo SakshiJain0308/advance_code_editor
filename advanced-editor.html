@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Code Editor</title>
+    <!-- Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <!-- Pyodide -->
+    <script src="https://pyodide-cdn2.iodide.io/v0.24.1/full/pyodide.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="advanced-editor.css">
+</head>
+<body>
+    <div id="loading" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading Python environment...</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Advanced Code Editor</h1>
+            <div class="controls">
+                <div class="left-controls">
+                    <button id="micButton" class="mic-button" title="Voice Input">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <select id="languageSelect">
+                        <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                    <select id="themeSelect">
+                        <option value="vs-dark">Dark Theme</option>
+                        <option value="vs-light">Light Theme</option>
+                        <option value="hc-black">High Contrast</option>
+                    </select>
+                </div>
+                <div class="right-controls">
+                    <button id="runButton" class="run-button" title="Run Code">
+                        <i class="fas fa-play"></i> Run
+                    </button>
+                    <button id="formatButton" class="format-button" title="Format Code">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <button id="clearButton" class="clear-button" title="Clear Output">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button id="saveButton" class="save-button" title="Save Code">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <button id="loadButton" class="load-button" title="Load Code">
+                        <i class="fas fa-folder-open"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <div class="sidebar">
+                <div class="file-explorer">
+                    <h3>Files</h3>
+                    <div id="fileList"></div>
+                    <button id="newFileButton" class="new-file-button">
+                        <i class="fas fa-plus"></i> New File
+                    </button>
+                </div>
+                <div class="snippets">
+                    <h3>Snippets</h3>
+                    <div id="snippetList"></div>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="monaco-editor"></div>
+                <div class="editor-footer">
+                    <span id="cursorPosition">Ln 1, Col 1</span>
+                    <span id="fileInfo">UTF-8</span>
+                    <span id="fileSize">0 bytes</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-panel">
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="output">Output</button>
+                <button class="tab-button" data-tab="console">Console</button>
+                <button class="tab-button" data-tab="problems">Problems</button>
+                <button class="tab-button" data-tab="terminal">Terminal</button>
+            </div>
+            <div class="panel-content">
+                <div id="output" class="tab-content active"></div>
+                <div id="console" class="tab-content"></div>
+                <div id="problems" class="tab-content"></div>
+                <div id="terminal" class="tab-content">
+                    <div class="terminal-output"></div>
+                    <div class="terminal-input">
+                        <span class="prompt">$</span>
+                        <input type="text" class="command-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="status" class="status"></div>
+    
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div class="settings-group">
+                <h3>Editor</h3>
+                <label>
+                    Font Size:
+                    <input type="number" id="fontSize" min="8" max="32" value="14">
+                </label>
+                <label>
+                    Tab Size:
+                    <input type="number" id="tabSize" min="2" max="8" value="4">
+                </label>
+                <label>
+                    Word Wrap:
+                    <input type="checkbox" id="wordWrap">
+                </label>
+            </div>
+            <div class="settings-group">
+                <h3>Auto-Completion</h3>
+                <label>
+                    Enable Auto-Complete:
+                    <input type="checkbox" id="autoComplete" checked>
+                </label>
+                <label>
+                    Suggestion Delay (ms):
+                    <input type="number" id="suggestDelay" min="0" max="2000" value="500">
+                </label>
+            </div>
+            <button id="saveSettings">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- Hidden file input for upload -->
+    <input type="file" id="fileInput" style="display: none">
+    
+    <!-- Custom JavaScript -->
+    <script src="advanced-editor.js"></script>
+</body>
+</html> 
